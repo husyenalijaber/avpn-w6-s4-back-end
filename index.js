@@ -1,11 +1,9 @@
-//import { GoogleGenAI } from "@google/genai";
-import { createPartFromUri, createUserContent, GoogleGenAI } from '@google/genai';
+import { GoogleGenAI } from "@google/genai";
 import "dotenv/config";
 import express from "express";
 import multer from "multer";
 import fs from "fs/promises";
 import cors from "cors";
-import path from 'path';
 
 const app = express();
 const upload = multer();
@@ -32,6 +30,9 @@ app.post('/generate-text', async (req, res) => {
     // handle bagaimana request diterima oleh user
     const { message } = req.body || {};
 
+    // guard clause --> satpam
+    // req.body = [] // typeof --> object; Array.isArray(isi) // true
+    // req.body = {} // typeof --> object; Array.isArray(isi) // false
     if (!message || typeof message !== 'string') {
         res.status(400).json({ message: "Pesan tidak ada atau format-nya tidak sesuai." });
         return; // keluar lebih awal dari handler
